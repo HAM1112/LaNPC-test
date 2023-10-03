@@ -1,0 +1,13 @@
+{% extends 'adminpanel/layout.html' %}
+{% block title %}Edit User{% endblock title %}
+{% block content %}
+<h1>edit user :</h1>
+<form method="POST">
+    {% csrf_token %}
+    name : <input type="text" value="{{user.username}}" name="username">
+    first name : <input type="text" value="{{user.first_name}}" name="first_name">
+    second name : <input type="text" value="{{user.second_name}}" name="second_name">
+    dob : <input type="text" value="{{user.username}}" name="username">
+    dob : <input type="text" value="{{user.username}}" name="username">
+</form>
+{% endblock  %}

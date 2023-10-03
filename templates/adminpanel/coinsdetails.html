@@ -1,0 +1,222 @@
+{% extends 'adminpanel/layout.html' %}
+{% block title %}CoinPacks{% endblock title %}
+{% block content %}
+<div class="container mx-auto mt-8 grid grid-cols-4 gap-4">
+    <!-- Card 1 --> 
+    {% for coin in coins %}
+        <div class="bg-gray-500 p-6 rounded-lg shadow-md flex justify-between">
+            <div>
+                <h2 class="text-xl font-semibold mb-2 text-black">{{coin.coins}} Coins</h2>
+                <p>Offer : {{coin.offer}}</p>
+                {% if coin.price_after_offer == coin.total_price  %}
+                    <p>  ₹{{coin.price_after_offer}}</p>
+                {% else %}
+                    <p><span class="line-through">₹{{coin.total_price}}</span>  ₹{{coin.price_after_offer}}</p>
+                {% endif %}
+            </div>
+            <a href="{% url 'delete-coins' coin.id %}" >
+                <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</button>
+            </a>
+        </div>   
+    {% endfor %} 
+    <!-- Add more cards as needed -->
+</div>
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="add_coin" value="add_coin">
+    <div class="bg-gray-300 p-6 rounded-lg shadow-md mt-4 flex justify-between items-center" style="max-width: 350px;">
+        <div>
+            <div>
+                <h2 class="font-semibold mb-2 text-black">Coins package</h2>
+                <input type="number" name="coins" class="border border-gray-300 p-2 mb-2 rounded w-full text-black" placeholder="Coins" required>
+            </div>
+            <div>
+                <h2 class="font-semibold mb-2 text-black">Offer</h2>
+                <input type="number" name="offer" class="border border-gray-300 p-2 mb-2 rounded w-full text-black" placeholder="Offer Percentage" required min="0" max="99">
+            </div>
+        </div>
+        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Add</button>    
+    </div>
+</form>
+<h3 class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base my-8">
+    Pack Purchase History
+</h3>
+<div class="flex gap-3 items-center p-4 border rounded-lg shadow-md mb-5">
+    <div class="">
+        <select
+            class="w-full px-3 bg-gray-700 py-2 placeholder-gray-800 border rounded-md focus:outline-none focus:ring focus:none"
+            id="option"
+            name="option"
+        >
+            <option value="all">ALL USER</option>
+            {% for user in users %}
+            <option value="{{user.user_id}}">{{user.username}}</option>
+            {% endfor %}
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+    <div date-rangepicker class="flex items-center">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+               <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+              </svg>
+          </div>
+          <input name="start" type="date" id="startTime" value="20002-12-11" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start" >
+        </div>
+        <span class="mx-4 text-gray-500">to</span>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+               <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+              </svg>
+          </div>
+          <input name="end" id="timeEnd" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+        </div>
+    </div>
+    <button id="submit-button" class="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
+</div> 
+<div class="relative overflow-x-auto" id="purchaseDetails">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    SI.no
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    User 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    No. Coins
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Transaction Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Date 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Time 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody id="transaction-table-body">
+            {% for transaction in transactions %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ forloop.counter }} 
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <a href="{% url 'user-details' transaction.user_id %}" class="text-fuchsia-500">{{transaction.user}}</a> 
+                    </th>
+                    <td class="px-6 py-4">
+                        {{transaction.no_coins}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{transaction.price}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{transaction.transaction_id}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{transaction.date}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{transaction.time}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {% if transaction.status  %} <span class="text-lime-500"> Success </span> {% else %} <span class="text-red-600"> Failed </span> {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="text-center mt-5 mb-10">
+    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" onclick="printDiv('purchaseDetails')">
+        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+        <span>Order</span>
+    </button>
+</div>
+<script>
+    function printDiv(divId) {
+        var printContents = document.getElementById(divId).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+    // Get today's date in the format YYYY-MM-DD
+    const today = new Date().toISOString().slice(0, 10);
+    startTime = document.getElementById("startTime");
+    startTime.max = today
+    // Set the default value of the input element to today's date
+    endTime = document.getElementById("timeEnd");
+    endTime.value = today
+    endTime.max = today
+    endTime.min = startTime.value
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Attach a click event handler to the submit button
+    $('#submit-button').on('click', function() {
+        
+        var csrftoken = $('[name=csrfmiddlewaretoken]').val()
+        // Get the selected option value
+        var selectedOption = $('#option').val();
+        console.log("clicked")
+        // Get the start and end date values
+        var startDate = $('input[name="start"]').val();
+        var endDate = $('input[name="end"]').val();
+
+        // Make an AJAX request to your Django view
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your view
+            url: '{% url "coinslist" %}', // Replace with your actual URL
+            data: {
+                'option': selectedOption,
+                'start_date': startDate,
+                'end_date': endDate,
+                'csrfmiddlewaretoken': csrftoken, // Include the CSRF token,
+            },
+            success: function(response) {
+                // Clear the existing table rows
+                $('#transaction-table-body').empty();   
+
+                for (var i = 0; i < response.transactions.length; i++) {
+                    var transaction = response.transactions[i];
+            
+                    var row = '<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">' +
+                        '<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">' + (i + 1) + '</th>' +
+                        '<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">' +
+                        '<a href="{% url "user-details" 0 %}" class="text-fuchsia-500">' + transaction.user + '</a>' +
+                        '</th>' +
+                        '<td class="px-6 py-4">' + transaction.no_coins + '</td>' +
+                        '<td class="px-6 py-4">' + transaction.price + '</td>' +
+                        '<td class="px-6 py-4">' + transaction.transaction_id + '</td>' +
+                        '<td class="px-6 py-4">' + transaction.date + '</td>' +
+                        '<td class="px-6 py-4">' + transaction.time + '</td>' +
+                        '<td class="px-6 py-4">' +
+                        (transaction.status ? '<span class="text-lime-500"> Success </span>' : '<span class="text-red-600"> Failed </span>') +
+                        '</td>' +
+                        '</tr>';
+            
+                    $('#transaction-table-body').append(row);
+                }
+            },
+            error: function(error) {
+                // Handle any errors that occur during the AJAX request
+                console.log(error);
+            }
+        });
+    });
+});
+</script>
+{% endblock  %}

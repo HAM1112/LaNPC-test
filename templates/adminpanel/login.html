@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaNPC | Admin Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/adminlogin.css' %}" />
+                                 
+</head>
+    <body>
+        <div class="main">
+            <h2>LaNPC</h2>
+            <form action="" method = "POST">
+                {% csrf_token %}
+                <div class="login-container">
+                    <h2>Login</h2>
+                    <div class="input-field">
+                        <img src="{% static 'images/username.png' %}" alt="" srcset="">
+                        <span></span>
+                        <input type="text" placeholder="Username" name="username">
+                    </div>
+                    <div class="input-field">
+                        <img src="{% static 'images/password.png' %}" alt="" srcset="">
+                        <span></span>
+                        <input type="password" placeholder="Password" name="password">
+                    </div>
+                    {% if error %}
+                        <div class="error-msg" style="color:red;"">{{error}}</div>
+                    {% endif %} 
+                    <input type="submit" class="login-btn" value="Login">
+                </div>
+
+            </form>
+        </div>
+    </body>
+</html>

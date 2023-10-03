@@ -1,0 +1,283 @@
+{% extends 'adminpanel/layout.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<h1 class="text-4xl font-bold mb-4 text-teal-500">Welcome to LaNPC</h1>
+<div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div class="grid grid-cols-2 row-gap-8 md:grid-cols-4">
+      <div class="text-center md:border-r">
+        <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">{{usersCount}}</h6>
+        <p class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base">
+          Users
+        </p>
+      </div>
+      <div class="text-center md:border-r">
+        <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">{{gamesCount}}</h6>
+        <p class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base">
+          Games
+        </p>
+    </div>
+    <div class="text-center md:border-r">
+        <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">{{purchaseCount}}</h6>
+        <p class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base">
+            Downloads
+        </p>
+    </div>
+    <div class="text-center">
+        <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">₹{{income}}</h6>
+        <p class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base">
+            Income
+        </p>
+    </div>
+</div>
+</div>
+
+<!-- Chart start -->
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <!-- Card 1 (Wider) -->
+    <div class="col-span-2 bg-gray-500 rounded-lg shadow-lg p-4">
+      <!-- Content for Card 1 -->
+      <h2 class="text-xl text-black text-center font-semibold my-5">Monthly Income</h2>
+      <div>
+          <canvas id="chartjs-bar"></canvas>
+      </div>
+    </div>
+    <!-- Card 2 (Less Wider) -->
+    <div class="col-span-1 bg-gray-500 rounded-lg shadow-lg p-4 ">
+      <!-- Content for Card 2 -->
+      <h2 class="text-xl text-black text-center font-semibold my-5">Weekly Income</h2>
+      <div >
+          <canvas id="chartjs-line" height="300"></canvas>
+      </div>
+    </div>
+  </div>
+<!-- Chart end -->
+<!-- Latest Review History -->
+<h3 class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base my-8">
+    Game Purchase History
+</h3>
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Game name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    User name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Coins
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Date and time
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for history in purchase_history %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <a href="{% url 'game-details' history.game.id %}" class="text-teal-600">{{history.game.name}}</a> 
+                    </th>
+                    <td class="px-6 py-4 text-fuchsia-500">
+                        <a href="{% url 'user-details' history.user.id %}">{{history.user.username}}</a>
+                    </td>
+                    <td class="px-6 py-4">
+                        {{history.game.coins}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{history.time_added}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Latest purchase History -->
+<h3 class="text-sm font-medium tracking-widest text-gray-900 uppercase lg:text-base my-8">
+  Latest Reviews
+</h3>
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Game name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    User name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Rating
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Date 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Time
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in latest_reviews %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <a href="{% url 'game-details' review.game.id %}" class="text-teal-600">{{review.game.name}}</a> 
+                </th>
+                <td class="px-6 py-4 text-fuchsia-500">
+                    <a href="{% url 'user-details' review.user.id %}">{{review.user.username}}</a>
+                </td>
+                <td class="px-6 py-4">
+                    {{review.rating}}
+                </td>
+                <td class="px-6 py-4">
+                    {{review.time_created|date:"Y-m-d"}}
+                </td>
+                <td class="px-6 py-4">
+                    {{ review.time_created|date:"H:i:s" }}
+                </td>     
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>  
+    <script>
+        function printDiv(divId) {
+            var printContents = document.getElementById(divId).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('chartjs-bar');
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Jan" , "Feb" , "Mar" , "Apr" , "May" , "Jun" , "Jul" , "Aug" , "Sep" , "Oct" , "Nov" , "Dec" ],
+            datasets: [
+            {
+                label: "Last Year",
+                backgroundColor: "#ff5733", // Replace with your desired color
+                borderColor: "#ff5733", // Replace with your desired color
+                hoverBackgroundColor: "#ff5733", // Replace with your desired color
+                hoverBorderColor: "#ff5733", // Replace with your desired color
+                data: [
+                    {% for month , income in last_year_income.items %}
+                        {{income}},
+                    {% endfor %}
+                 ],
+                barPercentage: .75,
+                categoryPercentage: .5
+            }, 
+            {
+                label: "This Year",
+                backgroundColor: "#dee2e6",
+                borderColor: "#dee2e6",
+                hoverBackgroundColor: "#dee2e6",
+                hoverBorderColor: "#dee2e6",
+                data: [
+                    {% for month, income in monthly_income.items %}
+                        {{ income }},
+                        
+                    {% endfor %}
+                ],
+                barPercentage: .75,
+                categoryPercentage: .5
+            }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true, // Start the y-axis at zero  
+                    ticks: {
+                        color: "black",
+                     }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: "black",
+                     }
+                }
+            },
+            plugins: {
+                legend: {
+                    title: {
+                        color: "red", // Change the legend title color to red
+                    },
+                    labels:{
+                        color : "black"
+                    }
+                },
+            },
+        }
+    });
+// chart for week
+    new Chart(document.getElementById("chartjs-line"), {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",],
+          datasets: [{
+            label: "This Week",
+            fill: true,
+            backgroundColor: "transparent",
+            borderColor: '#00ADB5',
+            data: [
+                {% for day, income in this_week.items %}
+                    {{ income }},
+                {% endfor %}
+            ]
+          }, {
+            label: "Last Week",
+            fill: true,
+            backgroundColor: "transparent",
+            borderColor: "#adb5bd",
+            borderDash: [4, 4],
+            data: [
+                {% for day , income in last_week.items %}
+                    {{income}},
+                {% endfor %}
+            ]
+          }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true, // Start the y-axis at zero
+                    ticks: {
+                        color: "black",
+                     }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: "black",
+                     }
+                }
+            },
+            plugins: {
+                legend: {
+                    title: {
+                        color: "red", // Change the legend title color to red
+                    },
+                    labels:{
+                        color : "black"
+                    }
+                },
+            },
+        }
+      });
+</script>
+{% endblock content %}

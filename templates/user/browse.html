@@ -1,0 +1,198 @@
+{% extends 'user/base.html' %}
+
+{% block title %} Browse {% endblock  %}
+
+{% load static %}
+{% block content %}
+<!-- ***** Featured Start ***** -->
+<div class="container">
+  <div class="row">
+    <!-- First div with 3 columns -->
+    <div class="col-lg-8">
+
+      <div class="featured-games header-text">
+        <div class="heading-section">
+          <h4><em>Featured</em> Games</h4>
+        </div>
+        <div class="owl-features owl-carousel owl-loaded owl-drag">
+          <div class="owl-stage-outer">
+            <div class="owl-stage"
+              style="transform: translate3d(-1492px, 0px, 0px); transition: all 0.25s ease 0s; width: 2985px;">
+              
+              {% for game in games %}
+              {% if game.featured %}
+              <div class="owl-item cloned" style="width: 218.667px; margin-right: 30px;">
+                <div class="item">
+                  <div class="thumb">
+                    <a href="{% url 'game' game.id %}">
+                      <img src="{% static 'uploads/' %}{{ game.banner_image }}" alt="">
+                      <div class="hover-effect">
+                        <h6>{{game.category}}</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <h4>{{game.name}}<br><span>249K Downloads</span></h4>
+                  <ul>
+                    <li><i class="fa fa-coins"></i> {{game.coins}}</li>
+                    <li><i class="fa fa-download"></i> {{game.purchases}}</li>
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+                 
+            </div>
+          </div>
+          <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><span
+                aria-label="Previous">‹</span></button><button type="button" role="presentation"
+              class="owl-next"><span aria-label="Next">›</span></button></div>
+          <div class="owl-dots disabled"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Second div with 2 columns -->
+    <div class="top-d col-lg-4">
+      <!-- Your content for the second div goes here -->
+      <div class="top-downloaded">
+        <div class="heading-section">
+          <h4><em>Top</em> Price</h4>
+        </div>
+        <ul>
+          {% for game in top_coins %}
+          
+          <li>
+            <a href="{% url 'game' game.id %}">
+            <img src="{% static 'uploads/' %}{{ game.banner_image }}" alt="" class="templatemo-item">
+            <h4> {{game.name}} </h4>
+            </a>
+            <h6> {{game.category}} </h6>
+            <span><i class="fa fa-coins" style="color: yellow;"></i> {{game.coins}}</span>
+            <span><i class="fa fa-download" style="color: #ec6090;"></i> {{game.purchases}}</span>
+            <div class="download">
+              <a href="{% url 'game' game.id %}"><i class="fa fa-download"></i></a>
+            </div>
+          </li>
+          {% endfor %}
+          
+        </ul>
+        <div class="text-button">
+          <a href="{% url 'all-games' %}">View All Games</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Featured end -->
+
+
+<!-- ***** Start explore ***** -->
+<div class="start-stream">
+  <div class="col-lg-12">
+    <div class="heading-section">
+      <h4><em>Explore All </em> Categories</h4>
+    </div>
+    <div class="row">
+
+      {% for category in categories %}
+        <div class="col-lg-4 mt-2">
+          <a href="{% url 'category-game' category.id %}">
+            <div class="item">
+              <h4>{{category.name}}</h4>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+      
+
+      
+
+    </div>
+  </div>
+</div>
+<!-- ***** End Explore ***** -->
+
+<!-- ***** Other Start ***** -->
+<div class="latest-games">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="heading-section">
+        <h4><em>All</em> Games</h4>
+      </div>
+    </div>
+
+    {% for game in other_games %}
+    <div class="col-lg-6">
+      <div class="item">
+        <a href="{% url 'game' game.id %}">
+          <img src="{% static 'uploads/' %}{{ game.cover_image }}" alt="" class="templatemo-item">
+          <h4>{{game.name}}</h4><span>{{game.category}}</span>
+        </a>
+        <ul>
+          <li><i class="fa-solid fa-coins"></i> {{game.coins}}</li>
+          <li><i class="fa fa-download"></i> {{game.purchases}}</li>
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+ 
+    <div class="latest-button col-lg-12">
+      <div class="main-button">
+        <a href="{% url 'all-games' %}">View all games</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ***** Other End ***** -->
+
+
+{% if user.is_authenticated and user_games %}
+
+<!-- ***** Gaming Library Start ***** -->
+<div class="gaming-library profile-library">
+  <div class="col-lg-12">
+    <div class="heading-section">
+      <h4><em>Your Purchased</em> Games</h4>
+    </div>
+  
+    {% for purchase in user_games %}
+    <div class="item">
+      <ul class="d-flex flex-column align-items-center flex-md-row justify-content-around">
+        <li><a href="{% url 'game' purchase.game.id %}"><img src="{% static 'uploads/' %}{{ purchase.game.cover_image }}" alt="" class="templatemo-item"></a></li>
+        <li>
+          <h4>{{purchase.game.name}}</h4><span>{{purchase.game.category}}</span>
+        </li>
+        <li class="d-none d-lg-block">
+          <h4>Date Purchased</h4><span>{{purchase.time_added|date:"Y-m-d"}}</span>
+        </li>
+        
+        <li>
+          <div class="main-border-button border-no-active"><a href="{% url 'chat-rooms' purchase.game.id %}">Go to Community</a></div>
+        </li>
+        <li>
+          <div class="main-border-button border-no-active"><a href="#">Download</a></div>
+        </li>
+      </ul>
+    </div>
+    {% endfor %}
+     
+    <div class="latest-button col-lg-12">
+      <div class="main-button">
+        <a href="{% url 'profile' %}">My Library</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ***** Gaming Library End ***** -->
+
+{% endif %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+
+
+{% endblock  %}
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADMIN | {% block title %}{% endblock title %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="bg-gray-800">
+  <!-- Navbar -->
+  <nav class="bg-cyan-400 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-black font-semibold text-lg">LaNPC Admin</a>
+      <button class="text-white focus:outline-none md:hidden">Menu</button>
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="#" class="text-black hover:text-gray-600">Home</a>
+        <a href="#" class="text-black hover:text-gray-600">About</a>
+        <a href="#" class="text-black hover:text-gray-600">Services</a>
+        <a href="{% url 'admin-logout' %}" class="bg-teal-200 hover:bg-gray-700 text-gray-700 font-semibold hover:text-white py-1 px-2 border border-gray-600 hover:border-transparent rounded">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  {% comment %} <div class="container mx-auto mt-8 flex"> {% endcomment %}
+  <div class="container mx-auto flex h-screen overflow-hidden">
+    <!-- Side Panel -->
+    <div class="fixed-panel w-1/4 bg-zinc-700 p-4 shadow-lg t">
+      <h2 class="text-lg font-semibold mb-4 text-white">Side Panel</h2>
+      <ul class="space-y-2">
+        <li><a href="{% url 'admin-home' %}" class="text-white hover:underline">Dashbaord</a></li>
+        <li><a href="{% url 'userslist' %}" class="text-white hover:underline">User Management</a></li>
+        <li><a href="{% url 'gameslist' %}" class="text-white hover:underline">Game Management</a></li>
+        <li><a href="{% url 'categorieslist' %}" class="text-white hover:underline">Category Management</a></li>
+        <li><a href="{% url 'coinslist' %}" class="text-white hover:underline">Coin Management</a></li>  
+        <li><a href="{% url 'couponslist' %}" class="text-white hover:underline">Coupon Management</a></li>  
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-3/4 bg-zinc-700 p-8 shadow-lg text-white overflow-scroll pb-4">   
+        {% block content %}{% endblock  %}
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for handling mobile menu toggle (optional)
+    const button = document.querySelector('button');
+    const menu = document.querySelector('.md\\:flex');
+
+    button.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

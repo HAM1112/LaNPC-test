@@ -1,0 +1,112 @@
+{% extends 'user/base.html' %}
+
+{% block title %} Chat Rooms  {% endblock  %}
+
+{% load static %}
+
+{% block content %}
+<input type="hidden" value="{{user.id}}" id="logged-user">
+<input type="hidden" value="{{game.id}}" id="game-chat">
+<div class="chatroom profile-library">
+    <div class="col-lg-12 px-4 ">
+        <div class="row mb-4">
+            <h2 class="text-center">Chat Rooms</h2>
+        </div>
+        <div class=" row ">
+            
+            
+            
+            <div class="rooms-list col-lg-4 p-2 rounded-start">
+            <!-- Content for the first div (2/5 of the row) -->
+                <div class="chat-panel w-100">
+                    
+                    <div class="search-bar p-3 rounded">
+                     
+                        <i class="ms-1 p-2 border border-secondary border-2 rounded-start fa fa-search"></i>
+                        <input type="text" class="rounded-end" id="darkInput" placeholder="Enter text">
+                          
+                    </div>
+
+                    {% for game in games %}
+                    <div class="item p-2 rounded-3">
+                            <a href="{% url 'chat-rooms' game.game.id %}">
+
+                                <img src="{% static 'uploads/' %}{{ game.game.cover_image }}" alt="">
+                                <span>{{game.game.name}}</span>
+                            </a>        
+                    </div>
+                    {% endfor %}
+
+                    
+
+                    
+                </div>
+            </div>
+            
+            <div class="chat-field col-lg-8 p-2 rounded-end" >
+            <!-- Content for the second div (3/5 of the row) -->
+                <div class="chat-feild-inner rounded p-3" id="chat-feild-inner" >
+                    <h3>{{game.name}}</h3>
+                    <div id="chat-display-pannel" class="chat-display-pannel">
+
+                        <!-- one chaat -->
+                        {% for message in messages %}
+                            {% if message.user == user %}
+                                <div class="chat-you  mt-2" >
+                                    <img class="mt-2 rounded-circle" src="/static/images/profile-pic.webp" alt="">
+                                    <div class="chat-contents">
+                                        <div class="chat-user rounded-top ps-2 pe-4 w-100">
+                                            <span>you</span>
+                                        </div>
+                                        <div class="chat-text px-2 rounded-bottom w-100">
+                                            Hi   <br>
+                                            Hi   <br>
+                                        </div>                                          
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="chat  mt-2" >
+                                    <img class="mt-2 rounded-circle" src="/static/images/profile-pic.webp" alt="">
+                                    <div class="chat-contents">
+                                        <div class="chat-user rounded-top ps-2 pe-4 w-100">
+                                            <span>{{message.user}}</span>
+                                        </div>
+                                        <div class="chat-text px-2 rounded-bottom w-100">
+                                            Hi   
+                                        </div>                      
+                                    </div>
+                                </div>
+                                <!-- one chaat -->
+                            {% endif %}
+                        {% endfor %}
+                        
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <form id="send-message-form" method="POST" class="p-2">
+                    {% csrf_token %}
+                    <div class="chat-input p-2 mt-2">
+                        <button type="submit" class="btn btn-dark">
+                            <i class="p-2 fa-regular fa-paper-plane" ></i>
+                        </button>
+                        <input type="text" class="input-message rounded-end p-2" id="darkInput" placeholder="Enter text" name="message" > 
+                    </div>
+                </form>
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  
+
+{% endblock  %}
+
+
+

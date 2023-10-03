@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaNPC | Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/adminlogin.css' %}" />
+</head>
+    <body>
+        <div class="main">
+            <h2>LaNPC</h2>
+            <form action="" method = "POST">
+                {% csrf_token %}
+                <div class="login-container container">
+                    <h2>Sign Up</h2>
+                    <div class="input-field">
+                        <img src="{% static 'images/username.png' %}" alt="" srcset="">
+                        <span></span>
+                        <input type="text" placeholder="Username" name="username">
+                    </div>
+                    <div class="input-field">
+                        <img src="{% static 'images/email.png' %}" alt="" srcset="">
+                        <span></span>
+                        <input type="email" placeholder="Email Address" name="email">
+                    </div>
+                    <div class="input-field">
+                        <img src="{% static 'images/password.png' %}" alt="" srcset="">
+                        <span></span>
+                        <input type="password" placeholder="Password" name="password">
+                    </div>
+                    {% if error %}
+                        <div class="error-msg" style="color:red;"">{{error}}</div>
+                    {% endif %} 
+                    <input type="submit" class="login-btn" value="Create">
+                    <div class="reg-log-footer text-center fs-6">
+                        Already registered ?  <a href="{% url 'acc-signin' %}">Sign In</a> here.
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

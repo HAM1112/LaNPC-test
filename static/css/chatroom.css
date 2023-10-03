@@ -1,0 +1,136 @@
+:root{
+  --main-color : #222831;
+  --light-dark : #393E46;
+  --dark-teal : #00ADB5;
+  --light-teal : #00FFF5;
+}
+
+
+
+.chatroom{
+  padding: 30px;
+  background-color: var(--main-color);
+  border-radius: 23px;
+}
+
+.rooms-list{
+  height: 90vh;
+  color: white;
+  background-color: var(--light-dark);
+  overflow-y: scroll;
+  user-select: none;
+}
+
+.chat-panel{
+  display: grid;
+  gap: 5px;
+  overflow-y: scroll;
+}
+
+
+.chat-panel .item {
+  background-color: var(--main-color);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.chat-panel .item:hover{
+  background-color: #74777d;
+  transition: 0.5s;
+}
+
+.chat-panel .item img{
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.chat-panel .search-bar{
+  background-color: var(--main-color);
+  display: flex;
+  align-items: center;
+  
+}
+.chat-panel .search-bar input{
+  background-color: var(--light-dark);
+  color: #666;
+  width: 100% ;
+  border: none;
+  padding: 6px;
+}
+.chat-panel .search-bar input:focus{
+  outline: none !important;
+  
+}
+.chat-panel .search-bar i:hover{
+  background-color: var(--light-teal);
+  border-color: var(--light-teal);
+}
+
+.chatroom .chat-field{
+  height: 90vh;
+  color: white;
+  background-color: var(--light-dark);
+  display: grid;
+  position: relative;
+}
+
+.chat-field .chat-feild-inner{
+  background-color: var(--main-color);
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.chat-field .chat-feild-inner .chat-text{
+  background-color: var(--light-dark);
+  padding: 3px;
+}
+
+.chat-field .chat-feild-inner .chat{
+  display: flex;
+  gap: 10px;
+}
+
+.chat-feild-inner img{
+  width: 25px;
+  height: 25px;
+}
+
+.chat-field .chat-feild-inner .chat-user{
+  background-color: #74777d;
+}
+
+.chat-field .chat-feild-inner .chat-you{
+  display: flex;
+  gap: 10px;
+  flex-direction: row-reverse;
+}
+
+#send-message-form{
+  height: 60px;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+
+}
+
+.chat-field .chat-input{
+  display: flex;
+  align-items: center;
+  background-color: #74777d;
+  gap: 5px;
+}
+.chat-field .chat-input input{
+  background-color: var(--light-dark);
+  color: #fff;
+  width: 100% ;
+  border: none;
+  padding: 6px;
+  outline: none !important;
+}
+
+
+/* .chat-field .chat-display-pannel */
+
+
+

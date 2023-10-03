@@ -1,0 +1,68 @@
+{% extends 'adminpanel/layout.html' %}
+
+{% block title %}Catogory{% endblock title %}
+{% block content %}
+<div>
+    <canvas id="chartjs-doughnut"></canvas>
+</div>
+<div class="container mx-auto mt-8 grid grid-cols-4 gap-4">
+    <!-- Card 1 -->
+    {% for category in categories %}
+        <div class="bg-gray-500 p-6 rounded-lg shadow-md flex justify-between">
+            <h2 class="text-xl font-semibold mb-2 text-black">{{category.name}}</h2>
+            <a href="{% url 'deleteCategory' category.id %}" >
+                <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</button>
+            </a>
+        </div>
+    {% endfor %}  
+    <!-- Add more cards as needed -->
+</div>
+<form method="POST">
+    {% csrf_token %}
+    <div class="bg-gray-300 p-6 rounded-lg shadow-md mt-4 flex justify-between items-center" style="max-width: 350px;">
+        <div>
+            <h2 class="text-xl font-semibold mb-2 text-black">Add new category</h2>
+            <input type="text" name="category" class="border border-gray-300 p-2 mb-2 rounded w-full text-black" placeholder="Category name">
+        </div>
+        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Add</button>    
+    </div>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    window.theme = {
+        primary: "#00FFF5",
+        success: "#9400FF",
+        warning: "#A31ACB",
+    };
+    new Chart(document.getElementById("chartjs-doughnut"), {
+        type: "doughnut",
+        data: {
+          labels: [
+            {% for category in categories %}
+                "{{ category.name }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+          ],
+          datasets: [{
+            data: [
+                {% for category in categories %}
+                    {{ category.game_count }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: [
+              
+              {% for category in categories %}
+                    "{{category.bg_color}}",
+              {% endfor %}
+            ],
+            borderColor: "transparent"
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutoutPercentage: 65,
+        }
+      });  
+</script>
+{% endblock  %}

@@ -1,0 +1,92 @@
+{% extends 'user/base.html' %}
+
+{% block title %} All Games {% endblock  %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+  <form method="POST" action="{% url 'all-games' %}">
+    {% csrf_token %}
+    
+    <div class="row">
+      <!-- Search Bar -->
+      <div class="col-md-4">
+        
+        <label class="text-white" for="searchbar">Search :</label>
+        <div class="input-group">
+          <input type="text" id="searchbar" class="form-control" placeholder="Search..." name="search" {% if search %}value="{{search}}"{% endif %}>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sort Dropdown -->
+      <div class="col-md-4">
+        <div class="form-group text-white">
+          <label for="sortSelect">Sort By:</label>
+          <select class="form-control" id="sortSelect" name="selected">
+            <option value="latest"  {% if selected == 'latest' %}selected{% endif %}>Latest</option>
+            <option value="oldest"  {% if selected == 'oldest' %}selected{% endif %}>Oldest</option>
+            <option value="highcoin"  {% if selected == 'highcoin' %}selected{% endif %}>High Coins</option>
+            <option value="lowcoin"  {% if selected == 'lowcoin' %}selected{% endif %}>Low Coins</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+      </div>
+  
+      <!-- Category Dropdown -->
+      <div class="col-md-4">
+        <div class="form-group text-white">
+          <label for="categoryselect">Category :</label>
+          <select class="form-control" id="categoryselect" name="category">
+            <option value="All"  {% if c_selected == 'All' %}selected{% endif %}>All</option>
+            {% for category in categories %}
+              <option value="{{category.id}}"  {% if c_selected == category.id %}selected{% endif %}>{{category.name}}</option>
+            {% endfor %}
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+      </div>
+    </div>
+      
+  </form>
+</div>
+
+
+
+
+<!-- other start -->
+<div class="latest-games">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="heading-section">
+        <h4><em>Popular</em> Games</h4>
+      </div>
+    </div>
+    {% for game in games %}
+    <div class="col-lg-4">
+      <div class="item">
+        <a href="{% url 'game' game.id %}">
+          <img src="{% static 'uploads/' %}{{ game.cover_image }}" alt="{{game.name}}" class="templatemo-item">
+          <h4>{{game.name}}</h4><span>{{game.category}}</span>
+        </a>
+        <ul>
+          <li><i class="fa fa-coins"></i> {{game.coins}}</li>
+          <li><i class="fa fa-download"></i> {{game.purchases}}</li>
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+        <!-- Add more content as needed -->
+    </div>
+</div>
+<!-- ***** Other End ***** -->
+<!-- other  end -->
+
+
+
+
+
+
+{% endblock  %}

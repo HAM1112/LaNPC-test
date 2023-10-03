@@ -1,0 +1,14 @@
+.categories-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    border : 3px solid green;
+}
+
+.category-card{
+    
+    border : 3px solid green;
+}
+#chartjs-bar .chartjs-render-monitor .chart-legend li span {
+    color: white !important;
+}

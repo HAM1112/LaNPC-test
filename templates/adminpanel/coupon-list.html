@@ -1,0 +1,114 @@
+{% extends 'adminpanel/layout.html' %}
+{% block title %}Coupons{% endblock title %}
+{% block content %}
+    <div class="bg-slate-600 rounded-lg shadow-md p-6 w-72">
+        <h1 class="text-lg font-semibold mb-4">Generate Discount Coupon</h1>
+        <form method="POST">
+            {% csrf_token %}
+        <!-- Discount Code Input -->
+            <div class="mb-4">
+            <label for="discount-code" class="block text-black text-sm mb-2">Coupon Discount</label>
+            <input type="number" name="discount" id="discount-code" placeholder="Enter discount" class="text-black w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" min="1" max="99">
+            </div>
+            <!-- Expiration Date Input -->
+            <div class="mb-4">
+                <label for="expiration-date" class="block text-black text-sm mb-2">Expiration Date</label>
+                <input type="date" name="date" id="expiration-date" class="text-black w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+            <p class="text-red-700 text-xs">{{error}}</p>
+            </div>
+            <!-- Active Checkbox -->
+            <div class="mb-4">
+                <input type="checkbox" id="active" class="mr-2" name="active" checked>
+                <label for="active" class="text-black text-sm">Active</label>
+            </div>
+            <!-- Submit Button -->
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600" type="Submit">Generate</button>
+        </form>
+    </div>
+    <div class="bg-neutral-800 p-8 my-10 rounded-lg shadow-md">
+        <h2 class="text-center my-5 font-bold text-xl">Coupons</h2>
+        <table class="w-full rounded-lg shadow-md mb-4 border-separate border-spacing-y-3">
+            <tr class="my-3 bg-stone-500">
+                <th class="p-2">Coupon Code</th>
+                <th class="p-2">Discount</th>
+                <th class="p-2">Expires On</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Remove</th>
+            </tr>
+            {% for coupon in coupons %}
+            <tr class="text-center bg-stone-600 ">
+                <td class="p-3">{{ coupon.code }}</td>
+                <td class="p-3">{{ coupon.discount }}%</td>
+                <td class="p-3">{{ coupon.expiration_date }}</td>
+                <td class="p-3">
+                    {% if coupon.active %}
+                        <button class="toggle-button text-green-500 bg-stone-700 py-2 px-3 rounded-lg"
+                                data-coupon-id="{{ coupon.id }}">Active</button>
+                    {% else %}
+                        <button class="toggle-button text-red-500 bg-stone-700 py-2 px-3 rounded-lg"
+                                data-coupon-id="{{ coupon.id }}">Inactive</button>
+                    {% endif %}
+                </td>
+                <td class="p-3">
+                    <a class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md" href="{% url 'delete-coupon' coupon.id %}">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Get the CSRF token from the cookie
+        var csrftoken = getCookie('csrftoken');
+
+        // Function to get the CSRF token from the cookie
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = $.trim(cookies[i]);
+                    // Check if the cookie name matches the expected format
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(".toggle-button").click(function () {
+            var couponId = $(this).data("coupon-id");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'toggle-coupon-active' 0 %}".replace('0', couponId),
+                data: {},
+                beforeSend: function (xhr) {
+                    // Include the CSRF token in the request headers
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    if (data.success) {
+                 
+                        if (data.active) {
+                           
+                            $('.toggle-button[data-coupon-id="' + couponId +  '"]').text('Active').removeClass("text-red-500").addClass("text-green-500");
+                            
+                            
+                        } else {
+                            $('.toggle-button[data-coupon-id="' + couponId +  '"]').text('Inactive').removeClass("text-green-500").addClass("text-red-500");
+                        }  
+                    } else {
+                        console.error("Toggle request failed");
+                    }
+                },
+                error: function (xhr, errmsg, err) {
+                    console.error(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+{% endblock  %}

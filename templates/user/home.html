@@ -1,0 +1,90 @@
+{% extends 'user/base.html' %}
+
+{% block title %} Home {% endblock  %}
+{% load static %}
+{% block content %}
+
+    <!-- banner start -->
+    <div class="main-banner">
+      <div class="row">
+          <div class="col-lg-7">
+              <div class="header-text">
+                  <h6>Welcome To Cyborg</h6>
+                  <h4><em>Browse</em> Our Popular Games Here</h4>
+                  <div class="main-button">
+                      <a href="browse.html">Browse Now</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- banner end -->
+
+  <!-- ***** Most Popular Start ***** -->
+  <div class="most-popular">
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="heading-section">
+                  <h4><em>Latest Games</em> Right Now</h4>
+              </div>
+              <div class="row">
+                {% for game in latests %}
+                <div class="col-lg-3 col-sm-6">
+                  <div class="item">
+                    <a href="{% url 'game' game.id %}">
+                      <img src="{% static 'uploads/' %}{{ game.cover_image }}" alt="">
+                      
+                      <h4>{{game.name}}<br><span>{{game.category}}</span></h4>
+                    </a>
+                    <ul>
+                      <li><i class="fa fa-coins"></i> {{game.coins}}</li>
+                      <li><i class="fa fa-download"></i> {{game.purchases}}</li>
+                    </ul>
+                  </div>
+                </div>
+                {% endfor %}
+                
+                
+                <div class="col-lg-12">
+                  <div class="main-button">
+                    <a href="{% url 'browse' %}">Discover Popular</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+  </div>
+  <!-- ***** Most Popular End ***** -->
+  
+  <!-- other start -->
+  <div class="latest-games">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="heading-section">
+          <h4><em>Popular</em> Games</h4>
+        </div>
+      </div>
+      {% for game in latests %}
+      <div class="col-lg-4">
+        <div class="item">
+          <a href="{% url 'game' game.id %}">
+            <img src="{% static 'uploads/' %}{{ game.cover_image }}" alt="{{game.name}}" class="templatemo-item">
+            <h4>{{game.name}}</h4><span>{{game.category}}</span>
+          </a>
+          <ul>
+            <li><i class="fa fa-coins"></i> {{game.coins}}</li>
+            <li><i class="fa fa-download"></i> {{game.purchases}}</li>
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+
+          
+          <!-- Add more content as needed -->
+      </div>
+  </div>
+  <!-- ***** Other End ***** -->
+  <!-- other  end -->
+
+
+{% endblock  %}

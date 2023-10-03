@@ -1,0 +1,175 @@
+{% extends 'adminpanel/layout.html' %}
+
+{% block content %}
+<div class="p-16">
+    <div class="p-8 bg-gray-800 shadow-lg mt-24">
+      <div class="grid grid-cols-1 md:grid-cols-3">
+        <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
+          <div>
+            <p class="font-bold text-gray-700 text-xl">{{no_purchases}}</p>
+            <p class="text-gray-400">Games</p>
+          </div>
+          <div>
+               <p class="font-bold text-gray-700 text-xl">{{no_reviews}}</p>
+            <p class="text-gray-400">Reviews</p>
+          </div>
+              <div>
+               <p class="font-bold text-gray-700 text-xl">{{user.coins}}</p>
+            <p class="text-gray-400">Coins</p>
+          </div>
+        </div>
+        <div class="relative">
+            {% if user.profile_pic %}
+          <div class="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500 bg-cover bg-[url('/static/uploads/{{user.profile_pic}}')]">
+              
+            </div>
+            {% else %}
+            <div class="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500 ">
+        
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            {% endif %}
+        </div>
+    
+        <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
+            <a href="{% url 'edit-user' user.id %}">
+
+                <button
+                class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                >
+                Edit
+                </button>
+            </a>
+                <button
+            class="text-white py-2 px-4 uppercase rounded bg-red-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+            >
+            Delete
+            </button>
+        </div>
+      </div>
+    
+      <div class="mt-20 text-center border-b pb-12">
+        <h1 class="text-4xl font-medium text-gray-700">{{user.username}}  <span class="font-light text-gray-500"></span></h1>
+        {% if user.first_name %}
+        <p class="font-light text-gray-600 mt-3">{{user.first_name}} {{user.second_name}}</p>
+        {% else %}
+        <p class="font-light text-gray-600 mt-3"> Name not added </p>
+        {% endif %}
+    
+        <p class="mt-2 text-gray-500">{{user.email}}</p>
+        {% if user.dob %}
+        <p class="mt-8 text-gray-500">Date of birth - {{user.dob}} </p>
+        {% else %}
+        <p class="mt-8 text-gray-500">Date of birth - Not added </p>
+        {% endif %}
+
+        <p class="mt-8 text-gray-500">Date Account opened - {{user.date_joined}} </p>
+      </div>
+    
+      <div class="mt-12 flex flex-col justify-center">
+        
+          <!--Lastest review by this user-->
+          
+          
+          <div class="relative overflow-x-auto">
+              <h3 class="text-sm font-medium tracking-widest text-black uppercase lg:text-base my-8">
+                 Reviews
+              </h3>
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                          <th scope="col" class="px-6 py-3">
+                              Game name
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Rating
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Date 
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Time
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for review in reviews %}
+                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              <a href="{% url 'game-details' review.game.id %}" class="text-teal-600">{{review.game.name}}</a> 
+                          </th>
+                          <td class="px-6 py-4">
+                              {{review.rating}}
+                          </td>
+                          <td class="px-6 py-4">
+                              {{review.time_created|date:"Y-m-d"}}
+                          </td>
+                          <td class="px-6 py-4">
+                              {{ review.time_created|date:"H:i:s" }}
+                          </td>
+                          
+                      </tr>
+                      {% endfor %}
+                      
+                  </tbody>
+              </table>
+          </div>
+        
+        
+        
+        
+        <!--Lastest Purchase by this user-->
+        <div class="relative overflow-x-auto">
+
+
+            <h3 class="text-sm font-medium tracking-widest text-black uppercase lg:text-base my-8">
+                Purchases
+            </h3>
+            
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Game
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Coins
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Download left
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for purchase in purchases %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <a href="{% url 'game-details' purchase.game.id %}" class="text-teal-600">{{purchase.game}}</a> 
+                        </th>
+                        <td class="px-6 py-4">
+                            {{purchase.game.coins}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{purchase.download_count}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{purchase.time_added|date:"Y-m-d"}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+
+      </div>
+    
+    </div>
+    </div>
+
+{% endblock  %}

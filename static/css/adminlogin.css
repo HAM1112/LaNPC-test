@@ -1,0 +1,97 @@
+body{
+    background-color: #1f2122;
+  }
+  
+  h2{
+    color: #c9c9c9;
+  }
+  
+  .main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10vh;
+  }
+  
+  .login-container{
+    margin-top: 50px;
+    background-color: #27292a;
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-radius: 20px;
+    padding: 40px 0px;
+  }
+  
+  .login-container  .input-field{
+    background-color: white;
+    width: 300px;
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .login-container img span{
+    height: 100%;
+  }
+  .login-container span{
+    border: 1px solid #c9c9c9;
+  }
+  
+  .login-container input[type=text] , 
+  .login-container input[type=password] ,
+  .login-container input[type=email]
+  {
+    width: 100%;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+  }
+  
+  .login-btn{
+  margin-top: 30px;
+    width: 100px;
+    padding: 10px;
+    background-color: #00ADB5;
+    color: #fae2ea;
+    border: none;
+    border-radius: 25px;
+  }
+
+.reg-log-footer{
+  color: #c9c9c9;
+}
+
+
+
+@media only screen and (max-width: 550px) {
+  .login-container {
+    padding: 20px 0px;
+    width: 90vw;
+  }
+  .login-container > .input-field{
+    width: 180px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+}
+
+@media only screen and (max-width: 990px) {
+  .login-container > .input-field{
+    width: 240px;
+    height: 40px;
+    padding: 5px;
+  }
+  .login-container {
+    padding: 20px 0px;
+  }
+}
+
+
+
