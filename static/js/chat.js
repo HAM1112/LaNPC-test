@@ -10,7 +10,7 @@ let wsStart = 'ws://'
 if (location.protocol === "https") {
     wsStart ='wss://'
 }
-let endPoint = wsStart + loc.host + loc.pathname + '?game_id=' + GAME
+let endPoint = wsStart + loc.hostname + ":8001" + loc.pathname + '?game_id=' + GAME
 
 var socket = new WebSocket(endPoint)
 
