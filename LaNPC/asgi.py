@@ -16,7 +16,7 @@ from channels.auth import AuthMiddlewareStack
 
 
 
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LaNPC.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LaNPC.settings')
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
