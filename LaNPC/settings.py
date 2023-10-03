@@ -82,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'LaNPC.wsgi.application'
+WSGI_APPLICATION = 'LaNPC.wsgi.application'
 ASGI_APPLICATION = 'LaNPC.asgi.application'
 
 
