@@ -90,18 +90,18 @@ ASGI_APPLICATION = 'LaNPC.asgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'lanpc_test',
-#        'USER': 'postgres',
-#        'PASSWORD': 'wq12',
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'lanpcdb',
+       'USER': 'django',
+       'PASSWORD': 'pass',
+       'HOST': 'localhost',
+       'PORT': '',
+   }
 }
 
-database_url = config('database_url')
-DATABASES['default'] = dj_database_url.parse(database_url)
+# database_url = config('database_url')
+# DATABASES['default'] = dj_database_url.parse(database_url)
 # postgres://lanpcdb_user:rdwiN92rwVmuhkHWjdqmFP6hQ9eTHaqh@dpg-ckbprmmsmu8c73anmvc0-a.oregon-postgres.render.com/lanpcdb
 
 
