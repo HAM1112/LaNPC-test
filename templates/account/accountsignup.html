@@ -33,8 +33,8 @@
                         <span></span>
                         <input type="password" placeholder="Password" name="password">
                     </div>
-                    {% if error %}
-                        <div class="error-msg" style="color:red;"">{{error}}</div>
+                    {% if error_message %}
+                        <div class="error-msg" style="color:red;"">{{error_message}}</div>
                     {% endif %} 
                     <input type="submit" class="login-btn" value="Create">
                     <div class="reg-log-footer text-center fs-6">
