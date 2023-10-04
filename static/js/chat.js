@@ -81,19 +81,19 @@ function newMessage(message , send_by_id, sent_by_name) {
                     </div>
                     <div class="chat-text px-2 rounded-bottom w-100">
                         ${message}
-                        </div>                      
-                        </div>
-                        </div>         
+                    </div>                      
+                </div>
+            </div>         
                         `
     }else{
         message_element =  `
-                        <div class="chat  mt-2" >
-                        <img class="mt-2 rounded-circle" src="/static/images/profile-pic.webp" alt="">
-                        <div class="chat-contents">
-                        <div class="chat-user rounded-top ps-2 pe-4 w-100">
+            div class="chat  mt-2" >
+                <img class="mt-2 rounded-circle" src="/static/images/profile-pic.webp" alt="">
+                <div class="chat-contents">
+                    <div class="chat-user rounded-top ps-2 pe-4 w-100">
                         <span>${sent_by_name}</span>
-                        </div>
-                        <div class="chat-text px-2 rounded-bottom w-100">
+                    </div>
+                    <div class="chat-text px-2 rounded-bottom w-100">
                         ${message}
                     </div>                      
                 </div>
