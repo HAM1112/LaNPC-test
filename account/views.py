@@ -32,6 +32,11 @@ def signUp(request):
         password = request.POST['password']
         otp = str(random.randint(100000, 999999))  #generating otp
         
+        if ' ' in username or username.isspace():
+            return render(request , 'account/accountsignup.html' , {"error_message" : "Username shouldn't contain whitespaces"})
+        if len(password) < 8 or ' ' in password:
+            return render(request , 'account/accountsignup.html' , {"error_message" : "Password atleast 8 char and no witespaces"})
+            
         # storing details in session 
         request.session['otp'] = otp        
         request.session['username'] = username
