@@ -97,7 +97,10 @@ def gameDetails(request , gameId):
     
     # check wheather the game is purchased or not
     try:
-        purchased_game = PurchasedGame.objects.get(game=game, user=request.user)
+        if request.user.is_authenticated:
+            purchased_game = PurchasedGame.objects.get(game=game, user=request.user)
+        else :
+            purchased_game = []    
         purchased = True
         
         no_of_downloads_left = 3 - purchased_game.download_count
