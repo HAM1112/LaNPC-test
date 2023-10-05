@@ -7,13 +7,13 @@ console.log(USER);
 
 let loc = window.location
 let wsStart = 'ws://'
-if (location.protocol === "https") {
+if (loc.protocol === "https") {
     wsStart ='wss://'
 }
 let endPoint = wsStart + loc.host + ":8001" + loc.pathname + '?game_id=' + GAME
 
 console.log(endPoint)
-
+console.log(loc.protocol)
 
 var socket = new WebSocket(endPoint)
 
