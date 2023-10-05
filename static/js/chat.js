@@ -6,10 +6,10 @@ const GAME = $('#game-chat').val()
 console.log(USER);
 
 let loc = window.location
-let wsStart = 'ws://'
-if (loc.protocol === "https") {
-    wsStart ='wss://'
-}
+let wsStart = 'wss://'
+// if (loc.protocol === "https") {
+//     wsStart ='wss://'
+// }
 let endPoint = wsStart + loc.host + ":8001" + loc.pathname + '?game_id=' + GAME
 
 console.log(endPoint)
