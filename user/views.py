@@ -2,14 +2,14 @@
 import os
 import io
 import zipfile
-import requests
 from datetime import datetime
-# Django
 
+
+# Django
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render , redirect
-from django.http import HttpResponse , FileResponse
+from django.http import HttpResponse
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
@@ -89,11 +89,13 @@ def gameDetails(request , gameId):
     reviews_with_description = Review.objects.filter(game=game).exclude(description__isnull=True).exclude(description__exact='')
     
     related_games = Game.objects.filter(category=game.category).exclude(id=game.id)
-    wishlist = Wishlist.objects.filter(user = request.user , game = game).exists()
-    
     no_of_downloads_left = 3
     
+    try:
+        wishlist = Wishlist.objects.filter(user = request.user , game = game).exists()
+    except wishlist.DoesNotExist:
     # check wheather the game is purchased or not
+        wishlist = []
     try:
         purchased_game = PurchasedGame.objects.get(game=game, user=request.user)
         purchased = True
@@ -343,15 +345,10 @@ def download_game_images(request, game_id):
                 if image:
                     
                     # Get the absolute file path of the image
-                    clound_image_url = image.url
-                    response = requests.get(clound_image_url)
-                    response.raise_for_status()
-
-                    # Use FileResponse to serve the fetched image content as a downloadable file
-                    image_content = response.content
-                    # Add the image data to the ZIP file with its original nam
-                    # zipf.writestr(os.path.basename(image_url), image_data)
-                    zipf.writestr(os.path.basename(image), image_content)
+                    image_path = default_storage.path(image.name)
+                    
+                    # Add the image to the ZIP file with its original name
+                    zipf.write(image_path, os.path.basename(image_path))
         # deleteing ther temperary directory
         os.rmdir(temp_dir)
 
