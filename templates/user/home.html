@@ -68,7 +68,7 @@
       <div class="col-lg-4">
         <div class="item">
           <a href="{% url 'game' game.id %}">
-            <img src="{% static 'uploads/' %}{{ game.cover_image }}" alt="{{game.name}}" class="templatemo-item">
+            <img src="{{ game.cover_image.url }}" alt="{{game.name}}" class="templatemo-item">
             <h4>{{game.name}}</h4><span>{{game.category}}</span>
           </a>
           <ul>

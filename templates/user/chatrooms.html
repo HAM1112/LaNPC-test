@@ -31,7 +31,7 @@
                     <div class="item p-2 rounded-3">
                             <a href="{% url 'chat-rooms' game.game.id %}">
 
-                                <img src="{% static 'uploads/' %}{{ game.game.cover_image }}" alt="">
+                                <img src="{{ game.game.cover_image.url }}" alt="">
                                 <span>{{game.game.name}}</span>
                             </a>        
                     </div>
