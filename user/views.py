@@ -2,8 +2,8 @@
 import os
 import io
 import zipfile
+import requests
 from datetime import datetime
-
 # Django
 
 from django.contrib.auth import logout
@@ -344,11 +344,14 @@ def download_game_images(request, game_id):
                     
                     # Get the absolute file path of the image
                     clound_image_url = image.url
-                    response = FileResponse(open(clound_image_url, 'rb'), content_type='image/jpeg')
-                    image_data = response.read()
-                    # Add the image to the ZIP file with its original name
-                    # zipf.write(image_path, os.path.basename(image_path))
-                    zipf.writestr(os.path.basename(clound_image_url), image_data)
+                    response = requests.get(clound_image_url)
+                    response.raise_for_status()
+
+                    # Use FileResponse to serve the fetched image content as a downloadable file
+                    image_content = response.content
+                    # Add the image data to the ZIP file with its original nam
+                    # zipf.writestr(os.path.basename(image_url), image_data)
+                    zipf.writestr(os.path.basename(image), image_content)
         # deleteing ther temperary directory
         os.rmdir(temp_dir)
 
