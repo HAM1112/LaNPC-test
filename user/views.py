@@ -89,13 +89,13 @@ def gameDetails(request , gameId):
     reviews_with_description = Review.objects.filter(game=game).exclude(description__isnull=True).exclude(description__exact='')
     
     related_games = Game.objects.filter(category=game.category).exclude(id=game.id)
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user = request.user , game = game).exists()
+    else :
+        wishlist = []
     no_of_downloads_left = 3
     
-    try:
-        wishlist = Wishlist.objects.filter(user = request.user , game = game).exists()
-    except Wishlist.DoesNotExist:
     # check wheather the game is purchased or not
-        wishlist = []
     try:
         purchased_game = PurchasedGame.objects.get(game=game, user=request.user)
         purchased = True
