@@ -32,7 +32,7 @@
                 <div class="col-lg-3 col-sm-6">
                   <div class="item">
                     <a href="{% url 'game' game.id %}">
-                      <img src="{% static 'uploads/' %}{{ game.cover_image }}" alt="">
+                      <img src="{{ game.cover_image.url }}" alt="">
                       
                       <h4>{{game.name}}<br><span>{{game.category}}</span></h4>
                     </a>
