@@ -93,7 +93,7 @@ def gameDetails(request , gameId):
     
     try:
         wishlist = Wishlist.objects.filter(user = request.user , game = game).exists()
-    except wishlist.DoesNotExist:
+    except Wishlist.DoesNotExist:
     # check wheather the game is purchased or not
         wishlist = []
     try:
