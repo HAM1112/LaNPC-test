@@ -74,7 +74,7 @@ function newMessage(message , send_by_id, sent_by_name) {
     
     if(send_by_id == USER){
         message_element = `
-            <div class="chat-you  mt-2" >
+            <div class="chat-you mt-2" >
                 <img class="mt-2 rounded-circle" src="/static/images/profile-pic.webp" alt="">
                 <div class="chat-contents">
                     <div class="chat-user rounded-top ps-2 pe-4 w-100">
@@ -88,7 +88,7 @@ function newMessage(message , send_by_id, sent_by_name) {
                         `
     }else{
         message_element =  `
-            div class="chat  mt-2" >
+            <div class="chat mt-2" >
                 <img class="mt-2 rounded-circle" src="/static/images/profile-pic.webp" alt="">
                 <div class="chat-contents">
                     <div class="chat-user rounded-top ps-2 pe-4 w-100">
