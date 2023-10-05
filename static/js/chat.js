@@ -15,6 +15,7 @@ let endPoint = wsStart + loc.host + ":8001" + loc.pathname + '?game_id=' + GAME
 console.log(endPoint)
 console.log(loc.protocol)
 
+
 var socket = new WebSocket(endPoint)
 
 socket.onopen = async function(e) {
