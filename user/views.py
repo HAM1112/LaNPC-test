@@ -99,11 +99,12 @@ def gameDetails(request , gameId):
     try:
         if request.user.is_authenticated:
             purchased_game = PurchasedGame.objects.get(game=game, user=request.user)
+            no_of_downloads_left = 3 - purchased_game.download_count
         else :
             purchased_game = []    
+            no_of_downloads_left = 0
         purchased = True
         
-        no_of_downloads_left = 3 - purchased_game.download_count
     except PurchasedGame.DoesNotExist:
         purchased = False
 
