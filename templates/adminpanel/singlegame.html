@@ -4,8 +4,8 @@
 
 <div class="bg-gray-700 shadow-md rounded-lg overflow-hidden">
     <div class="p-4 flex justify-evenly">
-        <img src="/static/uploads/{{ game.banner_image }}" alt="{{ game.name }} banner" class="h-80 object-contain object-cover">
-        <img src="/static/uploads/{{ game.cover_image }}" alt="{{ game.name }} cover" class="h-80 object-contain object-cover">
+        <img src="{{ game.banner_image.url }}" alt="{{ game.name }} banner" class="h-80 object-contain object-cover">
+        <img src="{{ game.cover_image.url }}" alt="{{ game.name }} cover" class="h-80 object-contain object-cover">
         
     </div>
     <div class="p-4">
