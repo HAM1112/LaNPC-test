@@ -4,12 +4,12 @@ import io
 import zipfile
 from datetime import datetime
 
-
 # Django
+
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render , redirect
-from django.http import HttpResponse
+from django.http import HttpResponse , FileResponse
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
@@ -343,10 +343,12 @@ def download_game_images(request, game_id):
                 if image:
                     
                     # Get the absolute file path of the image
-                    image_path = default_storage.path(image.name)
-                    
+                    clound_image_url = image.url
+                    response = FileResponse(open(clound_image_url, 'rb'), content_type='image/jpeg')
+                    image_data = response.read()
                     # Add the image to the ZIP file with its original name
-                    zipf.write(image_path, os.path.basename(image_path))
+                    # zipf.write(image_path, os.path.basename(image_path))
+                    zipf.writestr(os.path.basename(clound_image_url), image_data)
         # deleteing ther temperary directory
         os.rmdir(temp_dir)
 
