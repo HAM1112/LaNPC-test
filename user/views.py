@@ -348,11 +348,12 @@ def download_game_images(request, game_id):
             for image in [game.banner_image, game.cover_image]:
                 if image:
                     
-                    # Get the absolute file path of the image
-                    image_path = default_storage.path(image.name)
+                    # # Get the absolute file path of the image
+                    # image_path = default_storage.path(image.name)
                     
-                    # Add the image to the ZIP file with its original name
-                    zipf.write(image_path, os.path.basename(image_path))
+                    # # Add the image to the ZIP file with its original name
+                    # zipf.write(image_path, os.path.basename(image_path))
+                    pass
         # deleteing ther temperary directory
         os.rmdir(temp_dir)
 
