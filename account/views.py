@@ -56,17 +56,16 @@ def verifyOtp(request):
             stored_email = request.session.get('email')
             stored_password = request.session.get('password')
             user = User.objects.create_user(username=stored_username,email=stored_email,password=stored_password)
-            del request.session['otp']
-            del request.session['email']
-            del request.session['password']
+            # del request.session['otp']
+            # del request.session['email']
+            # del request.session['password']
             return redirect('acc-signin')
         else:
-            del request.session['otp']
-            del request.session['email']
-            del request.session['password']
+            # del request.session['otp']
+            # del request.session['email']
+            # del request.session['password']
             return render(request, 'account/verify_otp.html', {'error': 'Invalid OTP'})     
     return render(request , 'account/verify_otp.html')
-
 
 def signIn(request):
     # eget details for login
