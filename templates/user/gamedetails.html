@@ -11,11 +11,11 @@
     <div class="feature-banner header-text">
       <div class="row">
         <div class="col-lg-4">
-          <img src="{% static 'uploads/' %}{{game.banner_image}}" alt="{{game.name}}_banner" style="border-radius: 23px;">
+          <img src="{{game.banner_image.url}}" alt="{{game.name}}_banner" style="border-radius: 23px;">
         </div>
         <div class="col-lg-8">
           <div class="thumb">
-            <img src="{% static 'uploads/' %}{{game.cover_image}}" alt="{{game.name}}_cover" style="border-radius: 23px;">
+            <img src="{{game.cover_image.url}}" alt="{{game.name}}_cover" style="border-radius: 23px;">
             <a href="https://www.youtube.com/results?search_query={{game.name}}" target="_blank"><i class="fa fa-play"></i></a>
           </div>
         </div>
@@ -212,7 +212,7 @@
 
     <div class="col-lg-6">
       <div class="item">
-        <img src="{% static 'uploads/' %}{{game.cover_image}}" alt="" class="templatemo-item">
+        <img src="{{game.cover_image.url}}" alt="" class="templatemo-item">
         <h4>{{game.name}}</h4><span>{{game.category}}</span>
         <ul>
           <li><i class="fa fa-coins"></i> {{game.coins}}</li>

@@ -108,7 +108,7 @@
     {% for game in wishlists %}
     <div class="item">
       <ul>
-        <li><a href="{% url 'game' game.id %}"><img src="{% static 'uploads/' %}{{game.game.cover_image}}" alt="{{.game.game.name}}_cover" class="templatemo-item"></a></li>
+        <li><a href="{% url 'game' game.id %}"><img src="{{game.game.cover_image.url}}" alt="{{.game.game.name}}_cover" class="templatemo-item"></a></li>
         <li><h4>{{game.game.name}}</h4><span>{{game.game.category}}</span></li>
         <li><h4>Coins</h4><span>{{game.game.coins}}</span></li>
         <li><h4>Date Added</h4><span>{{game.time_added|date:"Y-m-d"}}</span></li>
@@ -131,7 +131,7 @@
     {% for purchase in purchased_games %}
     <div class="item">
       <ul class="d-flex flex-column align-items-center flex-md-row justify-content-around">
-        <li><a href="{% url 'game' purchase.game.id %}"><img src="{% static 'uploads/' %}{{ purchase.game.cover_image }}" alt="" class="templatemo-item"></a></li>
+        <li><a href="{% url 'game' purchase.game.id %}"><img src="{% static 'uploads/' %}{{ purchase.game.cover_image.url }}" alt="" class="templatemo-item"></a></li>
         <li>
           <h4>{{purchase.game.name}}</h4><span>{{purchase.game.category}}</span>
         </li>
