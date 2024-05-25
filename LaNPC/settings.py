@@ -148,23 +148,21 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
-
-MEDIA_URL = '/uploads/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/uploads')
-
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('cloud_name'),
     'API_KEY': config('cloudinary_key'),
     'API_SECRET': config('cloudinary_secret'),
 }
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/uploads')
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 AUTH_USER_MODEL = 'account.User'
 
